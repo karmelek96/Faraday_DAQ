@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "new": "cpp",
+        "no_os_gpio.h": "c",
+        "atomic": "cpp",
+        "random": "cpp",
+        "*.tcc": "cpp",
+        "cmath": "cpp"
+    }
+}
