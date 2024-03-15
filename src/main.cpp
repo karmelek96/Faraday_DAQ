@@ -46,9 +46,9 @@ uint32_t prevAddress = 0;
 
 uint8_t globalFlags = 0;
 
-double getValue(uint32_t _rawADCReading, double _vcc, double _adcGain, double _fullScaleOutput, double _range) {
+double getValue(uint32_t _rawADCReading, double _vcc, double _adcGain, double _fullScaleOutput, double _range, double _offset = 0) {
     double voltage = _rawADCReading * (_vcc / ((double)pow(2, 24) - 1));
-    double value = voltage * (_range / (_fullScaleOutput * _adcGain));
+    double value = (voltage - _offset) * (_range / (_fullScaleOutput * _adcGain));
     return value;
 }
 
@@ -174,7 +174,7 @@ void loop(){
             dataPoint.data.state = state;
             dataPoint.data.flags = globalFlags;
             dataPoint.data.thrust = getValue(thrustADC.continuousSingleRead(), LOADCELL_VREF, LOADCELL_GAIN, LOADCELL_FULL_SCALE_OUTPUT, LOADCELL_RANGE);
-            dataPoint.data.pressure = getValue(pressureADC.continuousSingleRead(), PTAP_VREF, PTAP_GAIN, PTAP_FULL_SCALE_OUTPUT, PTAP_RANGE);
+            dataPoint.data.pressure = getValue(pressureADC.continuousSingleRead(), PTAP_VREF, PTAP_GAIN, PTAP_FULL_SCALE_OUTPUT, PTAP_RANGE, PTAP_OFFSET);
             sendTelemetry(dataPoint);
             break;
         case AUTOSTART:
@@ -182,7 +182,7 @@ void loop(){
             dataPoint.data.state = state;
             dataPoint.data.flags = globalFlags;
             dataPoint.data.thrust = getValue(thrustADC.continuousSingleRead(), LOADCELL_VREF, LOADCELL_GAIN, LOADCELL_FULL_SCALE_OUTPUT, LOADCELL_RANGE);
-            dataPoint.data.pressure = getValue(pressureADC.continuousSingleRead(), PTAP_VREF, PTAP_GAIN, PTAP_FULL_SCALE_OUTPUT, PTAP_RANGE);
+            dataPoint.data.pressure = getValue(pressureADC.continuousSingleRead(), PTAP_VREF, PTAP_GAIN, PTAP_FULL_SCALE_OUTPUT, PTAP_RANGE, PTAP_OFFSET);
             sendTelemetry(dataPoint);
             flash.writeByteArray(prevAddress, dataPoint.bytes, sizeof(dataPoint.data));
             prevAddress += sizeof(dataPoint.data);
@@ -200,7 +200,7 @@ void loop(){
             dataPoint.data.state = state;
             dataPoint.data.flags = globalFlags;
             dataPoint.data.thrust = getValue(thrustADC.continuousSingleRead(), LOADCELL_VREF, LOADCELL_GAIN, LOADCELL_FULL_SCALE_OUTPUT, LOADCELL_RANGE);
-            dataPoint.data.pressure = getValue(pressureADC.continuousSingleRead(), PTAP_VREF, PTAP_GAIN, PTAP_FULL_SCALE_OUTPUT, PTAP_RANGE);
+            dataPoint.data.pressure = getValue(pressureADC.continuousSingleRead(), PTAP_VREF, PTAP_GAIN, PTAP_FULL_SCALE_OUTPUT, PTAP_RANGE, PTAP_OFFSET);
             sendTelemetry(dataPoint);
             flash.writeByteArray(prevAddress, dataPoint.bytes, sizeof(dataPoint.data));
             prevAddress += sizeof(dataPoint.data);
@@ -215,7 +215,7 @@ void loop(){
             dataPoint.data.state = state;
             dataPoint.data.flags = globalFlags;
             dataPoint.data.thrust = getValue(thrustADC.continuousSingleRead(), LOADCELL_VREF, LOADCELL_GAIN, LOADCELL_FULL_SCALE_OUTPUT, LOADCELL_RANGE);
-            dataPoint.data.pressure = getValue(pressureADC.continuousSingleRead(), PTAP_VREF, PTAP_GAIN, PTAP_FULL_SCALE_OUTPUT, PTAP_RANGE);
+            dataPoint.data.pressure = getValue(pressureADC.continuousSingleRead(), PTAP_VREF, PTAP_GAIN, PTAP_FULL_SCALE_OUTPUT, PTAP_RANGE, PTAP_OFFSET);
             sendTelemetry(dataPoint);
             break;
     }
