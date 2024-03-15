@@ -57,10 +57,10 @@ void setup(){
     Serial2.begin(57600);
     SPI.begin();
     Serial.println("SPI Initialized");
+    flash.begin();
+    SD.begin(SD_CS);
     SPI.beginTransaction(SPISettings(4000000, MSBFIRST, SPI_MODE3));
     Serial.println("SPI Settings Set");
-    //flash.begin();
-    //SD.begin(SD_CS);
     
     //Setup loadcell
     if(thrustADC.init()){
