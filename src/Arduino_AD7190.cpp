@@ -175,6 +175,4 @@ uint8_t AD7190::spi_read(uint8_t* _data, uint8_t _bytesNumber) {
 void AD7190::spi_init() {
     pinMode(this->cs_pin, OUTPUT);
     digitalWrite(this->cs_pin, HIGH);
-    SPI.begin();
-    SPI.beginTransaction(SPISettings(4000000, MSBFIRST, SPI_MODE3));
 }
